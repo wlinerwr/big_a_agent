@@ -7,7 +7,7 @@ from openai import OpenAI
 _ = load_dotenv(find_dotenv())
 key = os.environ["deepseek_API_KEY"]
 response = None
-//思考完成标志
+#思考完成标志
 over = False
 
 client = OpenAI(api_key= key, base_url="https://api.siliconflow.cn/v1")
@@ -38,7 +38,8 @@ for i in range(101):
     time.sleep(1)
 print("\n思考完成")
 
-//保证子线程完成
+#保证子线程完成
 thread.join()
 print(response.choices[0].message.content)
+
 

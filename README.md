@@ -1,1 +1,1 @@
-使用python语言调用硅基流动DeepSeek-R1模型的API，执行脚本进行一次问答。
+使用openai库调用硅基流动DeepSeek-R1模型的API，执行脚本进行一次问答。

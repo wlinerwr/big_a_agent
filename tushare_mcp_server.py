@@ -14,24 +14,46 @@ mcp = FastMCP("tushare_mcp_server")
 #注意python环境不同，当被客户端启动时使用的是客户端所在的环境
 _ = load_dotenv(find_dotenv())
 
-token = os.environ["tushare_token"]
+token = os.environ["tushare_token1"]
 
 ts = tushare.pro_api(token)
 
 
 
 
-# 权限不够
-# @mcp.tool()
-def get_stock_basic(exchange:str="",list_statues:str = "L") -> str:
+
+@mcp.tool()
+def get_stock_basic(exchange:str="",list_statues:str = "L",name:str="",limit:int="2",fields:str="ts_code,symbol,name,area,industry,list_date") -> str:
     """
-    获取上市股票基本信息（股票列表）
-    :param exchange 交易所,SSE上交所 SZSE深交所 BSE北交所,为空是全选
-    :param list_status: 上市状态, L上市 D退市 P暂停上市
-    :param fields 规定返回的信息样式。
+    调用工具可以获取获取上市股票基本信息，方法中有四个参数
+    :param exchange 交易所, 可选值有:SSE上交所 SZSE深交所 BSE北交所,为空是全选,当用户未指定时使用默认值
+    :param list_status: 上市状态, 可选值有： L上市 D退市 P暂停上市,当用户未指定时使用默认值
+    :param name:股票名字 传入的参入示例: "平安银行" ,为空是不指定.当用户未指定时使用默认值，当用户需要获取由股票名所指定股票的时，可以使用该参数获取股票信息。
+    :param limit : 获取返回数据条目的数目,当用户未指定时使用默认值,值最大不能超过10
+    :param fields :规定返回的信息样式,可选字符串有:
+            ts_code:TS股票代码,是数据接口中的唯一标识。
+            symbol:股票代码.
+            name:股票简称.
+            area:公司注册的地域.
+            industry:所属行业.
+            fullname:股票全称.
+            enname:公司的英文全称。
+            cnspell:股票名称的中文拼音缩写.
+            market:市场类型.
+            exchange:交易所代码.
+            curr_type:交易货币.
+            list_status:上市状态。
+            list_date:上市日期.
+            delist_date:退市日期，
+            is_hs:是否为沪深港通标的。
+            act_name:实际控制人名称。
+            act_ent_type:实际控制人企业性质。
+            传入参数示例："ts_code,symbol,name,area,industry,list_date"
+            当用户没有明确指定返回的信息样式时使用默认的值，当默认的值没有用户需要的信息时在默认值后追加字符串，比如:
+            "ts_code,symbol,name,area,industry,list_date,delist_date"   在默认值后追加退市日期，
     """
     try:
-        respon = ts.stock_basic(exchange=exchange, list_status=list_statues, fields='ts_code,symbol,name,area,industry,list_date')
+        respon = ts.stock_basic(exchange=exchange,limit=limit,name=name ,list_status=list_statues, fields=fields)
         #orient控制转化的JSON结构格式，force_ascii控制字符编码.
         return respon.to_json(orient='records',force_ascii=False)
     except Exception as e:
@@ -44,7 +66,18 @@ def get_stock_basic(exchange:str="",list_statues:str = "L") -> str:
         # 3.将结果组装成一个符合MCP规范的完整JSON响应，再发送回Agent
         # 思考：在这一过程中MCP协议有什么体现？
         return json.dumps({"error" : str(e)})
-    
+
+
+
+
+
+# @mcp.tool()
+# def get_stk_premarket()
+
+
+
+
+
 @mcp.tool()
 def get_daily_data(ts_code:str,start_date:str,end_date:str):
     """
@@ -58,7 +91,11 @@ def get_daily_data(ts_code:str,start_date:str,end_date:str):
         return respon.to_json(orient='records',force_ascii=False)
     except Exception as e:
         return json.dumps({"error" : str(e)})
-    
+
+
+
+
+
 @mcp.tool()
 def get_financial_indicator(ts_code:str,period:str="20250101"):
     """
@@ -72,6 +109,10 @@ def get_financial_indicator(ts_code:str,period:str="20250101"):
     except Exception as e:
         return json.dumps({"error" : str(e)})
 
+
+
+
+
 @mcp.tool()
 def get_stock_company(exchange:str,limit:int="10"):
     """
@@ -84,6 +125,9 @@ def get_stock_company(exchange:str,limit:int="10"):
         return respon.to_json(orient='records',force_ascii=False)
     except Exception as e:
         return json.dumps({"error" : str(e)})
+
+
+
 
 
     

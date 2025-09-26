@@ -1,3 +1,13 @@
-tushare_mcp_server.py MCP服务器，部分api需要权限导致tool无法使用
-stock_agent.py 对应agent。
-也是终于能跑起来了。
+##集成Tushare数据的Agent
+###1.如何使用
+    * 初始化环境：
+         * Python3.8+
+         * 导入第三方库(requirements.txt)
+	       * 下载.py文件，配置相关key和token。
+    * 运行stock_agent.py文件，即可在终端与agent交互.
+###2.大模型可用的工具:
+    * 获取上市股票基本信息.
+    * 获取历史日线.
+    * 获取财务指标数据.
+    * 获取上市公司基础信.
+    * 详细情况可以查看tushare_mcp_server.py文件.

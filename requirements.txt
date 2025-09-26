@@ -1,0 +1,8 @@
+tushare
+mcp
+langchain_mcp_adapters
+python-dotenv
+langgraph
+langchain_deepseek
+langchain_core
+IPython

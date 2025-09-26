@@ -1,11 +1,11 @@
-##集成Tushare数据的Agent
-###1.如何使用
+## 集成Tushare数据的Agent
+### 1.如何使用
     * 初始化环境：
-         * Python3.8+
-         * 导入第三方库(requirements.txt)
-	       * 下载.py文件，配置相关key和token。
+         1. Python3.8+
+         2. 导入第三方库(requirements.txt)
+	     3. 下载.py文件，配置相关key和token。
     * 运行stock_agent.py文件，即可在终端与agent交互.
-###2.大模型可用的工具:
+### 2.大模型可用的工具:
     * 获取上市股票基本信息.
     * 获取历史日线.
     * 获取财务指标数据.
